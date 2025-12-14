@@ -1,0 +1,232 @@
+machine learning, ml
+deep learning, dl
+artificial intelligence, ai
+neural network, nn
+neural networks, nn
+multilayer perceptron, mlp
+feedforward network, feed-forward network
+convolutional neural network, cnn
+recurrent neural network, rnn
+long short-term memory, lstm
+gated recurrent unit, gru
+graph neural network, gnn
+graph convolutional network, gcn
+generative adversarial network, gan
+variational autoencoder, vae
+autoregressive model, ar model
+normalizing flow, flow model
+transformer, transformer model
+self-attention, attention mechanism
+attention, self-attention
+reinforcement learning, rl
+inverse reinforcement learning, irl
+meta-learning, metalearning
+few-shot learning, few shot learning
+zero-shot learning, zero shot learning
+transfer learning, domain transfer
+domain adaptation, adaptation learning
+semi-supervised learning, semi supervised learning
+self-supervised learning, self supervised learning
+unsupervised learning, unsupervised ml
+supervised learning, supervised ml
+diffusion model, diffusion models, dm
+score-based diffusion, score based diffusion
+contrastive learning, cl
+contrastive loss, infoNCE loss
+gradient descent, gd
+stochastic gradient descent, sgd
+momentum sgd, msgd
+rmsprop, rms prop
+adam optimizer, adam
+adagrad, ada grad
+cross entropy, cross-entropy
+log likelihood, log-likelihood
+negative log likelihood, nll
+hyperparameter tuning, hyper-parameter tuning
+regularization, regularisation
+normalization, normalisation
+batch normalization, batch norm, batchnorm
+layer normalization, layer norm
+dropout, drop-out
+data augmentation, augmentation
+embedding, vector embedding
+k-means, kmeans
+k-nearest neighbors, knn, k nearest neighbors
+principal component analysis, pca
+linear regression, linreg
+logistic regression, logreg
+support vector machine, svm
+kernel method, kernelization
+markov decision process, mdp
+bayesian inference, bayes inference
+probabilistic model, probabilistic modelling
+monte carlo, monte-carlo, mc
+mcmc, markov chain monte carlo
+mathematics, math
+analysis, mathematical analysis
+functional analysis, func analysis
+real analysis, real-analysis
+complex analysis, complex-analysis
+measure theory, measure-theory
+probability theory, probability, probabilistic theory
+combinatorics, combinatorial mathematics
+geometry, geometric analysis
+convex optimization, convex optimisation
+linear algebra, lin algebra
+graph theory, graph-theory
+group theory, group-theory
+number theory, number-theory
+set theory, set-theory
+category theory, category-theory
+topology, topological space
+algebraic topology, alg topology
+algebraic geometry, alg geometry
+ordinary differential equation, ode
+partial differential equation, pde
+stochastic differential equation, sde
+ordinary least squares, ols
+maximum likelihood estimation, mle
+law of large numbers, lln
+central limit theorem, clt
+expectation maximization, em algorithm
+principal component analysis, pca
+singular value decomposition, svd
+random variable, rv
+random process, stochastic process
+laplace transform, laplace-transform
+fourier transform, ft, fourier-transform
+hilbert space, ℋ
+banach space, ℬ
+ℓ2 norm, l2 norm, euclidean norm
+ℓ1 norm, l1 norm, manhattan norm
+L-infinity norm, linf norm, max norm
+argmax, arg max
+argmin, arg min
+supremum, sup
+infimum, inf
+limit superior, limsup
+limit inferior, liminf
+remainder term, big-o notation, big o notation
+big-omega, big omega
+big-theta, big theta
+first-order logic, fol, first order logic
+lambda calculus, λ calculus, lambda-calculus
+set function, set-function
+sigma algebra, σ-algebra, sigma-algebra
+measurable function, measurable mapping
+gradient, ∇
+hessian, ∇²
+jacobian, jacobian matrix
+eigenvalue, eigen value
+eigenvector, eigen vector
+convex function, convexity
+strong convexity, strongly convex
+random variable, random-variable
+probability density function, pdf
+cumulative distribution function, cdf
+bayesian inference, bayesian estimation
+markov chain, mc
+gibbs sampling, gibbs-sampling
+importance sampling, importance-sampling
+likelihood function, log-likelihood
+posterior distribution, posterior
+prior distribution, prior
+matrix factorization, matrix-factorisation
+tensor decomposition, tensor-decomposition
+graph embedding, graph-embedding
+kernel trick, kernel-trick
+mixture of experts, moe
+sparse mixture of experts, sparse moe
+vision transformer, vit
+masked autoencoder, mae
+perceiver, perceiver io
+deep equilibrium model, dem
+neural tangent kernel, ntk
+neural ordinary differential equation, neural ode
+diffusion probabilistic model, diffusion probabilistic
+flow matching, fm model
+rectified flow, rf model
+natural language processing, nlp
+large language model, llm
+language model, lm
+tokenization, tokenising
+byte pair encoding, bpe
+sentencepiece, spm
+autoregressive language model, ar lm
+masked language model, mlm
+sequence to sequence, seq2seq
+machine translation, mt
+part of speech tagging, pos tagging
+named entity recognition, ner
+semantic parsing, semantic-analysis
+sentiment analysis, sentiment classification
+question answering, qa system
+retrieval augmented generation, rag
+information retrieval, ir
+document embedding, doc embedding
+word embedding, word2vec
+computer vision, cv
+object detection, object-detection
+semantic segmentation, semseg
+instance segmentation, instseg
+generative image model, image generation
+optical flow, optical-flow
+image classification, image-classification
+image recognition, image-recognition
+vision-language model, vlm
+contrastive vision-language model, vlm contrastive
+clip model, clip
+feature pyramid network, fpn
+region proposal network, rpn
+time series, timeseries
+autoregressive integrated moving average, arima
+seasonal arima, sarima
+state space model, ssm
+kalman filter, kalman-filter
+hidden markov model, hmm
+spectral analysis, spectrum analysis
+wavelet transform, wavelet-transform
+proximal gradient, prox-gradient
+projected gradient, projected-gradient
+conjugate gradient, cg method
+quasi-newton method, quasi newton
+bfgs algorithm, bfgs
+lbfgs algorithm, lbfgs
+newton method, newton-raphson
+interior point method, interior-point
+coordinate descent, coord-descent
+subgradient method, subgradient
+stochastic approximation, sa method
+probabilistic graphical model, pgm
+bayesian network, bn
+markov random field, mrf
+conditional random field, crf
+gaussian process, gp
+variational inference, vi
+expectation propagation, ep algorithm
+belief propagation, message passing
+factor graph, factor-graph
+hierarchical bayesian model, hierarchical bayes
+matrix decomposition, matrix-decomposition
+cholesky decomposition, cholesky
+qr decomposition, qr-decomposition
+eigendecomposition, eigen-decomposition
+schur decomposition, schur-decomposition
+tensor factorization, tensor-factorisation
+kronecker product, kron product
+hadamard product, elementwise product
+trace operator, trace
+determinant, det
+functional equation, functional-equation
+differential geometry, diff geometry
+riemannian geometry, riemann geometry
+symplectic geometry, symplectic-geometry
+variational calculus, calculus of variations
+harmonic analysis, harmonic-analysis
+ergodic theory, ergodic-theory
+dynamical systems, dynamical-systems
+fractal geometry, fractal-geometry
+discrete mathematics, discrete-math
+computational geometry, comp-geometry
+
+
