@@ -118,7 +118,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Search Service with Synonym Expansion and ML Reranking",
+    title="Search Service with ML Reranking",
     description="Advanced search service using BM25, HNSW, and ML reranking",
     version="1.0.0",
     lifespan=lifespan
