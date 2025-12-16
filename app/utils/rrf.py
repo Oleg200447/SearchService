@@ -48,7 +48,7 @@ class RRFMerger:
                 doc_map[doc_id] = {
                     'doc': doc,
                     'bm25_score': doc['_score'],
-                    'hnsw_score': 0.0,
+                    'hnsw_score': 0.6, #TODO
                     'bm25_rank': rank,
                     'hnsw_rank': None,
                     'rrf_score': 0.0

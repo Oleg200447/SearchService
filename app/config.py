@@ -20,12 +20,12 @@ class Settings(BaseSettings):
     RRF_K: int = 60
     DOCS_PER_INDEX: int = 100
     TOP_K_FINAL: int = 15
-    CATBOOST_THRESHOLD: float = 0.5
+    CATBOOST_THRESHOLD: float = -0.13659613179331168
     SNIPPET_WINDOW_SIZE: int = 30
     
     # File Paths
     SYNONYMS_PATH: str = "data/synonyms.txt"
-    LOGREG_MODEL_PATH: str = "models/logreg.pkl"
+    LOGREG_MODEL_PATH: str = "models/logreg_bundle.pkl"
     CATBOOST_MODEL_PATH: str = "models/catboost.cbm"
     
     # Timeouts

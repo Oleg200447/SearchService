@@ -1,57 +1,31 @@
 """Reranking service using LogisticRegression and CatBoost models."""
 
 import logging
-import pickle
+#import pickle
+import joblib
 from typing import List, Dict
 from pathlib import Path
 import numpy as np
 from catboost import CatBoostClassifier
 
+
 logger = logging.getLogger(__name__)
 
 
 class LogRegReranker:
-    """Logistic Regression reranker with custom predict methods."""
-    
     def __init__(self, model, scaler, threshold):
-        """
-        Initialize LogReg reranker.
-        
-        Args:
-            model: Trained logistic regression model
-            scaler: Feature scaler
-            threshold: Classification threshold
-        """
         self.model = model
         self.scaler = scaler
         self.threshold = threshold
 
     def predict(self, X):
-        """
-        Predict binary class labels.
-        
-        Args:
-            X: Feature matrix
-            
-        Returns:
-            Binary predictions (0 or 1)
-        """
         X_scaled = self.scaler.transform(X)
-        proba = self.model.predict_proba(X_scaled)[:, 1]
+        proba = self.model.predict_proba(X_scaled)[:,1]
         return (proba >= self.threshold).astype(int)
     
     def predict_proba(self, X):
-        """
-        Predict probability of positive class.
-        
-        Args:
-            X: Feature matrix
-            
-        Returns:
-            Probability scores
-        """
         X_scaled = self.scaler.transform(X)
-        return self.model.predict_proba(X_scaled)[:, 1]
+        return self.model.predict_proba(X_scaled)[:,1]
 
 
 class RerankingService:
@@ -89,7 +63,7 @@ class RerankingService:
                 raise FileNotFoundError(f"LogReg model not found: {logreg_path}")
             
             with open(logreg_file, 'rb') as f:
-                logreg_data = pickle.load(f)
+                logreg_data = joblib.load(f)
             
             # Extract model, scaler, and threshold
             self.logreg = LogRegReranker(

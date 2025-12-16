@@ -1,8 +1,9 @@
 """OpenSearch service for BM25 and HNSW vector search."""
 
+import asyncio
 import logging
 from typing import List, Dict, Optional
-from opensearchpy import AsyncOpenSearch, OpenSearchException
+from opensearchpy import OpenSearch, OpenSearchException
 from opensearchpy.exceptions import NotFoundError
 
 logger = logging.getLogger(__name__)
@@ -27,7 +28,7 @@ class OpenSearchService:
             password: Authentication password
             timeout: Request timeout in seconds
         """
-        self.client = AsyncOpenSearch(
+        self.client = OpenSearch(
             hosts=[url],
             http_auth=(username, password),
             use_ssl=True,
@@ -89,7 +90,8 @@ class OpenSearchService:
                 }
             
             # Execute search
-            response = await self.client.search(
+            response = await asyncio.to_thread(
+                self.client.search,
                 index=index,
                 body=body
             )
@@ -152,7 +154,8 @@ class OpenSearchService:
             body = {"query": query, "size": size}
             
             # Execute search
-            response = await self.client.search(
+            response = await asyncio.to_thread(
+                self.client.search,
                 index=index,
                 body=body
             )
@@ -218,7 +221,7 @@ class OpenSearchService:
             True if index exists, False otherwise
         """
         try:
-            return await self.client.indices.exists(index=index)
+            return await asyncio.to_thread(self.client.indices.exists, index=index)
         except Exception as e:
             logger.warning(f"Error checking index existence: {e}")
             return False
@@ -231,7 +234,7 @@ class OpenSearchService:
             True if service is healthy, False otherwise
         """
         try:
-            health = await self.client.cluster.health()
+            health = await asyncio.to_thread(self.client.cluster.health)
             return health['status'] in ['green', 'yellow']
         except Exception as e:
             logger.warning(f"OpenSearch health check failed: {e}")
@@ -239,5 +242,5 @@ class OpenSearchService:
     
     async def close(self):
         """Close the OpenSearch client."""
-        await self.client.close()
+        await asyncio.to_thread(self.client.close)
         logger.debug("OpenSearch client closed")

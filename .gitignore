@@ -49,6 +49,7 @@ Thumbs.db
 
 .env
 
+tests/
 
 # Model files (large)
 # Uncomment if you don't want to commit models
