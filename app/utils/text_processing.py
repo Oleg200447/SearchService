@@ -57,7 +57,7 @@ class TextProcessor:
         """
         logger.debug(f"Cleaning document text of length {len(text)}")
         
-        cleaned = text
+        cleaned = text.replace('-\n','')
         for char in TextProcessor.PDF_CHARS_TO_REMOVE:
             cleaned = cleaned.replace(char, ' ')
         
@@ -70,43 +70,42 @@ class TextProcessor:
     @staticmethod
     def extract_overlapping_windows(text: str, window_size: int = 30) -> List[str]:
         """
-        Extract overlapping text windows based on sentence boundaries and word count.
-        Each window starts at a sentence beginning and includes the next window_size words.
-        
+        Extract overlapping text windows starting at sentence boundaries.
+        Each window contains window_size words, potentially spanning multiple sentences.
+
         Args:
             text: Input text to split
             window_size: Number of words per window
-            
+
         Returns:
-            List of overlapping text windows
+            List of overlapping text windows starting at sentence boundaries
         """
-        logger.debug(f"Extracting windows with size {window_size} from text of length {len(text)}")
-        
+        logger.debug(f"Extracting overlapping windows with size {window_size} from text of length {len(text)}")
+
         # Split by sentence boundaries (., !, ?)
         sentences = re.split(r'[.!?]+', text)
-        
-        windows = []
-        current_words = []
-        
+
+        # Collect all words and track sentence start positions
+        all_words = []
+        sentence_starts = []
+
         for sentence in sentences:
             words = sentence.strip().split()
             if not words:
                 continue
-            
-            # Start a new window at each sentence
-            window_start_words = current_words + words
-            
-            # Extract window_size words from this position
-            if len(window_start_words) >= window_size:
-                window = ' '.join(window_start_words[:window_size])
-                windows.append(window)
-            elif window_start_words:
-                # If we have fewer than window_size words, take what we have
-                window = ' '.join(window_start_words)
-                windows.append(window)
-            
-            # Keep accumulating words for next window
-            current_words.extend(words)
-        
+
+            sentence_starts.append(len(all_words))
+            all_words.extend(words)
+
+        # Create windows starting at each sentence boundary
+        windows = []
+        for start_idx in sentence_starts:
+            if start_idx + window_size <= len(all_words):
+                window = ' '.join(all_words[start_idx:start_idx + window_size])
+            else:
+                # Take remaining words if less than window_size
+                window = ' '.join(all_words[start_idx:])
+            windows.append(window)
+
         logger.debug(f"Extracted {len(windows)} overlapping windows")
         return windows
