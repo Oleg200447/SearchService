@@ -1,6 +1,7 @@
 """Snippet extraction service using BM25 scoring on text windows."""
 
 import logging
+import re
 from typing import List, Dict
 from rank_bm25 import BM25Okapi
 from app.utils.text_processing import TextProcessor
@@ -55,8 +56,15 @@ class SnippetService:
         if len(windows) == 1:
             return windows[0]
         
-        # Tokenize windows for BM25
-        tokenized_windows = [window.lower().split() for window in windows]
+        # Tokenize windows for BM25 (clean punctuation for accurate scoring)
+        tokenized_windows = []
+        for window in windows:
+            # Remove punctuation and split into tokens
+            clean_window = re.sub(r'[^\w\s]', '', window)
+            tokens = clean_window.lower().split()
+            # Filter out empty tokens and commas
+            tokens = [token.strip(',') for token in tokens if token.strip(',')]
+            tokenized_windows.append(tokens)
         
         # Initialize BM25
         bm25 = BM25Okapi(tokenized_windows)

@@ -71,41 +71,25 @@ class TextProcessor:
     def extract_overlapping_windows(text: str, window_size: int = 30) -> List[str]:
         """
         Extract overlapping text windows starting at sentence boundaries.
-        Each window contains window_size words, potentially spanning multiple sentences.
-
-        Args:
-            text: Input text to split
-            window_size: Number of words per window
-
-        Returns:
-            List of overlapping text windows starting at sentence boundaries
+        Each window contains up to window_size tokens (words with punctuation).
         """
-        logger.debug(f"Extracting overlapping windows with size {window_size} from text of length {len(text)}")
 
-        # Split by sentence boundaries (., !, ?)
-        sentences = re.split(r'[.!?]+', text)
+        if not text.strip():
+            return []
 
-        # Collect all words and track sentence start positions
-        all_words = []
-        sentence_starts = []
+        tokens = text.split()
 
-        for sentence in sentences:
-            words = sentence.strip().split()
-            if not words:
-                continue
+        # Sentence start indices in token space
+        sentence_starts = [0]
 
-            sentence_starts.append(len(all_words))
-            all_words.extend(words)
+        for i in range(1, len(tokens)):
+            # Start of sentence if previous token ends with sentence punctuation
+            if re.search(r'[.!?]$', tokens[i - 1]):
+                sentence_starts.append(i)
 
-        # Create windows starting at each sentence boundary
-        windows = []
-        for start_idx in sentence_starts:
-            if start_idx + window_size <= len(all_words):
-                window = ' '.join(all_words[start_idx:start_idx + window_size])
-            else:
-                # Take remaining words if less than window_size
-                window = ' '.join(all_words[start_idx:])
-            windows.append(window)
+        windows = [
+            ' '.join(tokens[start:start + window_size])
+            for start in sentence_starts
+        ]
 
-        logger.debug(f"Extracted {len(windows)} overlapping windows")
         return windows
