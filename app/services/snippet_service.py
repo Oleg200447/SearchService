@@ -35,20 +35,16 @@ class SnippetService:
             Best matching snippet
         """
         logger.debug(f"Extracting snippet from document of length {len(document_text)}")
-        
         # Clean document text
-        cleaned_text = self.text_processor.clean_document_text(document_text)
-        
+        cleaned_text = self.text_processor.clean_document_text(document_text[:10000]) #TODO
         if not cleaned_text:
             logger.warning("Document text is empty after cleaning")
             return ""
-        
         # Extract overlapping windows
         windows = self.text_processor.extract_overlapping_windows(
             cleaned_text,
             self.window_size
         )
-        
         if not windows:
             logger.warning("No windows extracted from document")
             return cleaned_text[:500]  # Return first 500 chars as fallback
@@ -65,17 +61,14 @@ class SnippetService:
             # Filter out empty tokens and commas
             tokens = [token.strip(',') for token in tokens if token.strip(',')]
             tokenized_windows.append(tokens)
-        
         # Initialize BM25
         bm25 = BM25Okapi(tokenized_windows)
-        
         # Score windows against query
         scores = bm25.get_scores(query_tokens)
         
         # Find best window
         best_idx = scores.argmax()
         best_score = scores[best_idx]
-        
         logger.debug(f"Best snippet score: {best_score:.4f} (window {best_idx + 1}/{len(windows)})")
         
         return windows[best_idx]

@@ -77,8 +77,8 @@ class SynonymService:
         """
         logger.debug(f"Expanding query with tokens: {tokens}")
         
-        all_terms = set(tokens)  # Start with original tokens
-        found_synonyms = set()
+        all_terms = list(tokens)  # Start with original tokens
+        found_synonyms = list()
         
         # Try n-grams from 1 to 4 words
         for n in range(1, 5):
@@ -87,11 +87,11 @@ class SynonymService:
                 
                 if ngram in self.synonym_dict:
                     synonyms = self.synonym_dict[ngram]
-                    found_synonyms.update(synonyms)
+                    found_synonyms.extend(synonyms)
                     logger.debug(f"Found synonyms for '{ngram}': {synonyms}")
         
         # Add found synonyms to the set
-        all_terms.update(found_synonyms)
+        all_terms.extend(found_synonyms)
         
         # Create expanded query string
         expanded_query = ' '.join(sorted(all_terms))

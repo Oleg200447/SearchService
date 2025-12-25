@@ -252,19 +252,24 @@ async def search(request: SearchRequest, req: Request):
                 request.filters.date_range.validate_range()
             except ValueError as e:
                 raise ServiceException(400, "Invalid date range", str(e))
-        
+        start = time.time()
         # Step 1: Tokenize query
         tokens = text_processor.tokenize_query(request.query)
         logger.debug(f"Tokenized query: {tokens}", extra={"request_id": request_id})
         
         if not tokens:
             raise ServiceException(400, "Query contains no valid tokens", "Query must contain alphanumeric characters")
-        
+        end = time.time()
+        stage1=end-start
+        start = time.time()
         # Step 2: Expand query with synonyms
         expanded_query = synonym_service.expand_query(tokens)
         expanded_tokens = expanded_query.split()
         logger.info(f"Query expanded: {len(tokens)} -> {len(expanded_tokens)} terms", extra={"request_id": request_id})
         
+        end = time.time()
+        stage2=end-start
+        start = time.time()
         # Step 3: Get embedding for ORIGINAL query (not expanded)
         try:
             embedding = await embedding_service.get_embedding(request.query)
@@ -274,7 +279,9 @@ async def search(request: SearchRequest, req: Request):
             raise ServiceException(503, "Embedding service unavailable", f"HTTP {e.response.status_code}")
         except Exception as e:
             raise ServiceException(503, "Embedding service error", str(e))
-        
+        end = time.time()
+        stage3=end-start
+        start = time.time()
         # Step 4: Search in all indices
         all_merged_docs = []
         date_range_dict = None
@@ -328,7 +335,9 @@ async def search(request: SearchRequest, req: Request):
                 processing_time_ms=processing_time,
                 request_id=request_id
             )
-        
+        end = time.time()
+        stage4=end-start
+        start = time.time()
         # Step 5: Deduplicate by text_hash
         seen_hashes = set()
         unique_docs = []
@@ -342,7 +351,9 @@ async def search(request: SearchRequest, req: Request):
                 unique_docs.append(doc)  # Include docs without hash
         
         logger.info(f"After deduplication: {len(unique_docs)} documents", extra={"request_id": request_id})
-        
+        end = time.time()
+        stage5=end-start
+        start = time.time()
         # Step 6: Two-stage reranking
         try:
             reranked_docs = reranking_service.rerank(unique_docs)
@@ -359,7 +370,9 @@ async def search(request: SearchRequest, req: Request):
                 processing_time_ms=processing_time,
                 request_id=request_id
             )
-        
+        end = time.time()
+        stage6=end-start
+        start = time.time()
         # Step 7: Extract snippets
         try:
             docs_with_snippets = snippet_service.extract_snippets_batch(
@@ -368,7 +381,9 @@ async def search(request: SearchRequest, req: Request):
             )
         except Exception as e:
             raise ServiceException(500, "Snippet extraction failed", str(e))
-        
+        end = time.time()
+        stage7=end-start
+        start = time.time()
         # Step 8: Prepare response
         results = []
         for doc in docs_with_snippets:
@@ -377,12 +392,17 @@ async def search(request: SearchRequest, req: Request):
                 snippet=doc.get('snippet', ''),
                 score=doc.get('catboost_score', 0.0)
             ))
-        
+        end = time.time()
+        stage8=end-start
+        start = time.time()
         processing_time = (time.time() - start_time) * 1000
         
         logger.info(
             f"Search completed: {len(results)} results in {processing_time:.2f}ms",
             extra={"request_id": request_id}
+        )
+        logger.debug(
+            f"Stage 1:{stage1*1000},Stage 2:{stage2*1000},Stage 3:{stage3*1000},Stage 4:{stage4*1000},Stage 5:{stage5*1000},Stage 6:{stage6*1000},Stage 7:{stage7*1000},Stage 8:{stage8*1000},"
         )
         
         return SearchResponse(
