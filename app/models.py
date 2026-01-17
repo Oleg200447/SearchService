@@ -63,6 +63,8 @@ class SearchRequest(BaseModel):
 class SearchResult(BaseModel):
     """Single search result."""
     doc_id: str = Field(..., description="Document identifier")
+    doc_name: str = Field(..., description="Document name")
+    text: str = Field(..., description="Document's text")
     snippet: str = Field(..., description="Relevant text snippet")
     score: float = Field(..., description="Relevance score")
 

@@ -311,7 +311,7 @@ async def search(request: SearchRequest, req: Request):
                 )
                 
                 logger.debug(
-                    f"Index '{index}': BM25={len(bm25_results)}, HNSW={len(hnsw_results)}",
+                    f"Index '{index}': BM25={len(bm25_results)}, HNSW={len(hnsw_results)}, HNSW_SCORE {[(item['_id'], item['_score']) for item in hnsw_results]}, BM25_SCORE {[(item['_id'], item['_score']) for item in bm25_results]} ",
                     extra={"request_id": request_id}
                 )
                 
@@ -389,6 +389,8 @@ async def search(request: SearchRequest, req: Request):
         for doc in docs_with_snippets:
             results.append(SearchResult(
                 doc_id=doc.get('_source', {}).get('doc_id', doc.get('_id', 'unknown')),
+                doc_name=doc.get('_source', {}).get('doc_name', 'Untitled'),
+                text = doc.get('_source', {}).get('text', 'NOTEXT'),
                 snippet=doc.get('snippet', ''),
                 score=doc.get('catboost_score', 0.0)
             ))
@@ -419,14 +421,14 @@ async def search(request: SearchRequest, req: Request):
         raise ServiceException(500, "Search processing failed", str(e))
 
 
-@app.get("/")
-async def root():
-    """Root endpoint with service information."""
-    return {
-        "service": "Search Service",
-        "version": "1.0.0",
-        "status": "running"
-    }
+# @app.get("/")
+# async def root():
+#     """Root endpoint with service information."""
+#     return {
+#         "service": "Search Service",
+#         "version": "1.0.0",
+#         "status": "running"
+#     }
 
 
 if __name__ == "__main__":
